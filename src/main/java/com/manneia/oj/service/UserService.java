@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.manneia.oj.model.dto.user.UserQueryRequest;
 import com.manneia.oj.model.entity.User;
-import com.manneia.oj.model.vo.LoginUserVO;
-import com.manneia.oj.model.vo.UserVO;
+import com.manneia.oj.model.vo.LoginUserVo;
+import com.manneia.oj.model.vo.UserVo;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
@@ -35,7 +35,7 @@ public interface UserService extends IService<User> {
      * @param request
      * @return 脱敏后的用户信息
      */
-    LoginUserVO userLogin(String userAccount, String userPassword, HttpServletRequest request);
+    LoginUserVo userLogin(String userAccount, String userPassword, HttpServletRequest request);
 
     /**
      * 用户登录（微信开放平台）
@@ -44,7 +44,7 @@ public interface UserService extends IService<User> {
      * @param request
      * @return 脱敏后的用户信息
      */
-    LoginUserVO userLoginByMpOpen(WxOAuth2UserInfo wxOAuth2UserInfo, HttpServletRequest request);
+    LoginUserVo userLoginByMpOpen(WxOAuth2UserInfo wxOAuth2UserInfo, HttpServletRequest request);
 
     /**
      * 获取当前登录用户
@@ -91,7 +91,7 @@ public interface UserService extends IService<User> {
      *
      * @return
      */
-    LoginUserVO getLoginUserVO(User user);
+    LoginUserVo getLoginUserVO(User user);
 
     /**
      * 获取脱敏的用户信息
@@ -99,7 +99,7 @@ public interface UserService extends IService<User> {
      * @param user
      * @return
      */
-    UserVO getUserVO(User user);
+    UserVo getUserVO(User user);
 
     /**
      * 获取脱敏的用户信息
@@ -107,7 +107,7 @@ public interface UserService extends IService<User> {
      * @param userList
      * @return
      */
-    List<UserVO> getUserVO(List<User> userList);
+    List<UserVo> getUserVO(List<User> userList);
 
     /**
      * 获取查询条件

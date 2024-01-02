@@ -12,8 +12,8 @@ import com.manneia.oj.mapper.UserMapper;
 import com.manneia.oj.model.dto.user.UserQueryRequest;
 import com.manneia.oj.model.entity.User;
 import com.manneia.oj.model.enums.UserRoleEnum;
-import com.manneia.oj.model.vo.LoginUserVO;
-import com.manneia.oj.model.vo.UserVO;
+import com.manneia.oj.model.vo.LoginUserVo;
+import com.manneia.oj.model.vo.UserVo;
 import com.manneia.oj.service.UserService;
 import com.manneia.oj.utils.SqlUtils;
 import java.util.ArrayList;
@@ -80,7 +80,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public LoginUserVO userLogin(String userAccount, String userPassword, HttpServletRequest request) {
+    public LoginUserVo userLogin(String userAccount, String userPassword, HttpServletRequest request) {
         // 1. 校验
         if (StringUtils.isAnyBlank(userAccount, userPassword)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "参数为空");
@@ -109,7 +109,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public LoginUserVO userLoginByMpOpen(WxOAuth2UserInfo wxOAuth2UserInfo, HttpServletRequest request) {
+    public LoginUserVo userLoginByMpOpen(WxOAuth2UserInfo wxOAuth2UserInfo, HttpServletRequest request) {
         String unionId = wxOAuth2UserInfo.getUnionId();
         String mpOpenId = wxOAuth2UserInfo.getOpenid();
         // 单机锁
@@ -217,27 +217,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public LoginUserVO getLoginUserVO(User user) {
+    public LoginUserVo getLoginUserVO(User user) {
         if (user == null) {
             return null;
         }
-        LoginUserVO loginUserVO = new LoginUserVO();
+        LoginUserVo loginUserVO = new LoginUserVo();
         BeanUtils.copyProperties(user, loginUserVO);
         return loginUserVO;
     }
 
     @Override
-    public UserVO getUserVO(User user) {
+    public UserVo getUserVO(User user) {
         if (user == null) {
             return null;
         }
-        UserVO userVO = new UserVO();
+        UserVo userVO = new UserVo();
         BeanUtils.copyProperties(user, userVO);
         return userVO;
     }
 
     @Override
-    public List<UserVO> getUserVO(List<User> userList) {
+    public List<UserVo> getUserVO(List<User> userList) {
         if (CollUtil.isEmpty(userList)) {
             return new ArrayList<>();
         }

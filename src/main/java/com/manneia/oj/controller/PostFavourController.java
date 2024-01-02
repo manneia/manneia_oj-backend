@@ -11,7 +11,7 @@ import com.manneia.oj.model.dto.postfavour.PostFavourAddRequest;
 import com.manneia.oj.model.dto.postfavour.PostFavourQueryRequest;
 import com.manneia.oj.model.entity.Post;
 import com.manneia.oj.model.entity.User;
-import com.manneia.oj.model.vo.PostVO;
+import com.manneia.oj.model.vo.PostVo;
 import com.manneia.oj.service.PostFavourService;
 import com.manneia.oj.service.PostService;
 import com.manneia.oj.service.UserService;
@@ -69,8 +69,8 @@ public class PostFavourController {
      * @param request
      */
     @PostMapping("/my/list/page")
-    public BaseResponse<Page<PostVO>> listMyFavourPostByPage(@RequestBody PostQueryRequest postQueryRequest,
-            HttpServletRequest request) {
+    public BaseResponse<Page<PostVo>> listMyFavourPostByPage(@RequestBody PostQueryRequest postQueryRequest,
+                                                             HttpServletRequest request) {
         if (postQueryRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
@@ -91,8 +91,8 @@ public class PostFavourController {
      * @param request
      */
     @PostMapping("/list/page")
-    public BaseResponse<Page<PostVO>> listFavourPostByPage(@RequestBody PostFavourQueryRequest postFavourQueryRequest,
-            HttpServletRequest request) {
+    public BaseResponse<Page<PostVo>> listFavourPostByPage(@RequestBody PostFavourQueryRequest postFavourQueryRequest,
+                                                           HttpServletRequest request) {
         if (postFavourQueryRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }

@@ -14,7 +14,7 @@ import org.springframework.beans.BeanUtils;
  * @author <a href="https://github.com/manneia">程序员manneia</a>
  */
 @Data
-public class PostVO implements Serializable {
+public class PostVo implements Serializable {
 
     /**
      * id
@@ -64,7 +64,7 @@ public class PostVO implements Serializable {
     /**
      * 创建人信息
      */
-    private UserVO user;
+    private UserVo user;
 
     /**
      * 是否已点赞
@@ -79,10 +79,10 @@ public class PostVO implements Serializable {
     /**
      * 包装类转对象
      *
-     * @param postVO
-     * @return
+     * @param postVO 帖子封装类
+     * @return 返回对象
      */
-    public static Post voToObj(PostVO postVO) {
+    public static Post voToObj(PostVo postVO) {
         if (postVO == null) {
             return null;
         }
@@ -96,14 +96,14 @@ public class PostVO implements Serializable {
     /**
      * 对象转包装类
      *
-     * @param post
-     * @return
+     * @param post 帖子
+     * @return 返回包装类
      */
-    public static PostVO objToVo(Post post) {
+    public static PostVo objToVo(Post post) {
         if (post == null) {
             return null;
         }
-        PostVO postVO = new PostVO();
+        PostVo postVO = new PostVo();
         BeanUtils.copyProperties(post, postVO);
         postVO.setTagList(JSONUtil.toList(post.getTags(), String.class));
         return postVO;

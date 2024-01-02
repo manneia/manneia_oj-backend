@@ -5,15 +5,15 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * 已登录用户视图（脱敏）
+ * 用户视图（脱敏）
  *
  * @author <a href="https://github.com/manneia">程序员manneia</a>
- **/
+ */
 @Data
-public class LoginUserVO implements Serializable {
+public class UserVo implements Serializable {
 
     /**
-     * 用户 id
+     * id
      */
     private Long id;
 
@@ -41,11 +41,6 @@ public class LoginUserVO implements Serializable {
      * 创建时间
      */
     private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
 
     private static final long serialVersionUID = 1L;
 }

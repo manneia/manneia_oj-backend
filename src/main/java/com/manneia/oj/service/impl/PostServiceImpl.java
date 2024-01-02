@@ -16,8 +16,8 @@ import com.manneia.oj.model.entity.Post;
 import com.manneia.oj.model.entity.PostFavour;
 import com.manneia.oj.model.entity.PostThumb;
 import com.manneia.oj.model.entity.User;
-import com.manneia.oj.model.vo.PostVO;
-import com.manneia.oj.model.vo.UserVO;
+import com.manneia.oj.model.vo.PostVo;
+import com.manneia.oj.model.vo.UserVo;
 import com.manneia.oj.service.PostService;
 import com.manneia.oj.service.UserService;
 import com.manneia.oj.utils.SqlUtils;
@@ -226,8 +226,8 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     }
 
     @Override
-    public PostVO getPostVO(Post post, HttpServletRequest request) {
-        PostVO postVO = PostVO.objToVo(post);
+    public PostVo getPostVO(Post post, HttpServletRequest request) {
+        PostVo postVO = PostVo.objToVo(post);
         long postId = post.getId();
         // 1. 关联查询用户信息
         Long userId = post.getUserId();
@@ -235,7 +235,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         if (userId != null && userId > 0) {
             user = userService.getById(userId);
         }
-        UserVO userVO = userService.getUserVO(user);
+        UserVo userVO = userService.getUserVO(user);
         postVO.setUser(userVO);
         // 2. 已登录，获取用户点赞、收藏状态
         User loginUser = userService.getLoginUserPermitNull(request);
@@ -257,9 +257,9 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     }
 
     @Override
-    public Page<PostVO> getPostVOPage(Page<Post> postPage, HttpServletRequest request) {
+    public Page<PostVo> getPostVOPage(Page<Post> postPage, HttpServletRequest request) {
         List<Post> postList = postPage.getRecords();
-        Page<PostVO> postVOPage = new Page<>(postPage.getCurrent(), postPage.getSize(), postPage.getTotal());
+        Page<PostVo> postVOPage = new Page<>(postPage.getCurrent(), postPage.getSize(), postPage.getTotal());
         if (CollUtil.isEmpty(postList)) {
             return postVOPage;
         }
@@ -288,8 +288,8 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             postFavourList.forEach(postFavour -> postIdHasFavourMap.put(postFavour.getPostId(), true));
         }
         // 填充信息
-        List<PostVO> postVOList = postList.stream().map(post -> {
-            PostVO postVO = PostVO.objToVo(post);
+        List<PostVo> postVOList = postList.stream().map(post -> {
+            PostVo postVO = PostVo.objToVo(post);
             Long userId = post.getUserId();
             User user = null;
             if (userIdUserListMap.containsKey(userId)) {
