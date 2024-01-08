@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 题目接口
@@ -149,7 +150,7 @@ public class QuestionController {
     }
 
     /**
-     * 根据 id 获取
+     * 根据 id 获取 (脱敏)
      *
      * @param id 题目id
      * @return 返回查询结果
@@ -164,6 +165,28 @@ public class QuestionController {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
         }
         return ResultUtils.success(questionService.getQuestionVo(question, request));
+    }
+
+    /**
+     * 根据 id 获取
+     *
+     * @param id 题目id
+     * @return 返回查询结果
+     */
+    @GetMapping("/get/")
+    public BaseResponse<Question> getQuestionById(long id, HttpServletRequest request) {
+        if (id <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        Question question = questionService.getById(id);
+        if (question == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        User loginUser = userService.getLoginUser(request);
+        if (!Objects.equals(question.getUserId(), loginUser.getId()) && !userService.isAdmin(loginUser)) {
+            throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
+        }
+        return ResultUtils.success(question);
     }
 
     /**

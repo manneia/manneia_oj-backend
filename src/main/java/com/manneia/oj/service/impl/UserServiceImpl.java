@@ -1,7 +1,5 @@
 package com.manneia.oj.service.impl;
 
-import static com.manneia.oj.constant.UserConstant.USER_LOGIN_STATE;
-
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -16,16 +14,19 @@ import com.manneia.oj.model.vo.LoginUserVo;
 import com.manneia.oj.model.vo.UserVo;
 import com.manneia.oj.service.UserService;
 import com.manneia.oj.utils.SqlUtils;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.manneia.oj.constant.UserConstant.USER_LOGIN_STATE;
 
 /**
  * 用户服务实现
@@ -39,7 +40,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /**
      * 盐值，混淆密码
      */
-    public static final String SALT = "yupi";
+    public static final String SALT = "manneia";
 
     @Override
     public long userRegister(String userAccount, String userPassword, String checkPassword) {
@@ -151,6 +152,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 先判断是否已登录
         Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
         User currentUser = (User) userObj;
+        System.out.println("当前用户" + currentUser);
         if (currentUser == null || currentUser.getId() == null) {
             throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
         }
