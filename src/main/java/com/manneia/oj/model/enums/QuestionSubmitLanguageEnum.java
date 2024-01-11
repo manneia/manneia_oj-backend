@@ -16,10 +16,18 @@ import java.util.stream.Collectors;
 public enum QuestionSubmitLanguageEnum {
     JAVA("java", "java"),
     C("C", "C"),
-    CPLUSPLUS("C++", "C++"),
+    CPLUSPLUS("CPP", "CPP"),
     JAVASCRIPT("javascript", "javascript"),
     RUST("rust", "rust"),
-    GOLANG("golang", "golang");
+    GOLANG("golang", "golang"),
+    PYTHON("python", "python"),
+    SWIFT("swift", "swift"),
+    PHP("php", "php"),
+    PERL("perl", "perl"),
+    RUBY("ruby", "ruby"),
+    GO("go", "go"),
+    R("r", "r"),
+    LUA("lua", "lua");
 
 
     private final String text;
@@ -42,6 +50,7 @@ public enum QuestionSubmitLanguageEnum {
 
     /**
      * 根据value获取枚举
+     *
      * @param value value
      * @return 返回枚举
      */
