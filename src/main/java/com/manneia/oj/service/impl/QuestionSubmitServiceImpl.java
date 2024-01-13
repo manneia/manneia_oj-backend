@@ -8,8 +8,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.manneia.oj.common.ErrorCode;
 import com.manneia.oj.constant.CommonConstant;
 import com.manneia.oj.exception.BusinessException;
+import com.manneia.oj.judge.JudgeService;
 import com.manneia.oj.mapper.QuestionSubmitMapper;
-import com.manneia.oj.model.dto.question.QuestionQueryRequest;
 import com.manneia.oj.model.dto.qustionsubmit.JudgeInfo;
 import com.manneia.oj.model.dto.qustionsubmit.QuestionSubmitAddRequest;
 import com.manneia.oj.model.dto.qustionsubmit.QuestionSubmitQueryRequest;
@@ -19,24 +19,19 @@ import com.manneia.oj.model.entity.User;
 import com.manneia.oj.model.enums.QuestionSubmitLanguageEnum;
 import com.manneia.oj.model.enums.QuestionSubmitStatusEnum;
 import com.manneia.oj.model.vo.QuestionSubmitVo;
-import com.manneia.oj.model.vo.QuestionVo;
-import com.manneia.oj.model.vo.UserVo;
 import com.manneia.oj.service.QuestionService;
 import com.manneia.oj.service.QuestionSubmitService;
 import com.manneia.oj.service.UserService;
 import com.manneia.oj.utils.SqlUtils;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author lkx
@@ -51,6 +46,10 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
 
     @Resource
     private UserService userService;
+
+    @Resource
+    @Lazy
+    private JudgeService judgeService;
 
     /**
      * 题目提交
@@ -88,7 +87,10 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         if (!result) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "数据插入失败");
         }
-        return questionSubmit.getId();
+        // todo 执行判题服务
+        Long questionSubmitId = questionSubmit.getId();
+        CompletableFuture.runAsync(() -> judgeService.doJudge(questionSubmitId));
+        return questionSubmitId;
     }
 
     @Override
@@ -130,9 +132,7 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         if (CollUtil.isEmpty(questionSubmitList)) {
             return questionSubmitVoPage;
         }
-        List<QuestionSubmitVo> questionSubmitVoList = questionSubmitList.stream().map(questionSubmit -> {
-            return getQuestionSubmitVo(questionSubmit, loginUser);
-        }).collect(Collectors.toList());
+        List<QuestionSubmitVo> questionSubmitVoList = questionSubmitList.stream().map(questionSubmit -> getQuestionSubmitVo(questionSubmit, loginUser)).collect(Collectors.toList());
         questionSubmitVoPage.setRecords(questionSubmitVoList);
         return questionSubmitVoPage;
     }

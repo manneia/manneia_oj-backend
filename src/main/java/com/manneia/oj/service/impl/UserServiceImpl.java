@@ -168,8 +168,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /**
      * 获取当前登录用户（允许未登录）
      *
-     * @param request
-     * @return
+     * @param request the request
+     * @return the result
      */
     @Override
     public User getLoginUserPermitNull(HttpServletRequest request) {
@@ -187,8 +187,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /**
      * 是否为管理员
      *
-     * @param request
-     * @return
+     * @param request    the request
+     * @return {@link User}
      */
     @Override
     public boolean isAdmin(HttpServletRequest request) {
@@ -206,7 +206,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /**
      * 用户注销
      *
-     * @param request
+     * @param request the request
      */
     @Override
     public boolean userLogout(HttpServletRequest request) {

@@ -91,8 +91,8 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     /**
      * 获取查询包装类
      *
-     * @param postQueryRequest
-     * @return
+     * @param postQueryRequest the post query request
+     * @return 返回查询包装类
      */
     @Override
     public QueryWrapper<Post> getQueryWrapper(PostQueryRequest postQueryRequest) {
@@ -259,9 +259,9 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     @Override
     public Page<PostVo> getPostVOPage(Page<Post> postPage, HttpServletRequest request) {
         List<Post> postList = postPage.getRecords();
-        Page<PostVo> postVOPage = new Page<>(postPage.getCurrent(), postPage.getSize(), postPage.getTotal());
+        Page<PostVo> postVoPage = new Page<>(postPage.getCurrent(), postPage.getSize(), postPage.getTotal());
         if (CollUtil.isEmpty(postList)) {
-            return postVOPage;
+            return postVoPage;
         }
         // 1. 关联查询用户信息
         Set<Long> userIdSet = postList.stream().map(Post::getUserId).collect(Collectors.toSet());
@@ -300,8 +300,8 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             postVO.setHasFavour(postIdHasFavourMap.getOrDefault(post.getId(), false));
             return postVO;
         }).collect(Collectors.toList());
-        postVOPage.setRecords(postVOList);
-        return postVOPage;
+        postVoPage.setRecords(postVOList);
+        return postVoPage;
     }
 
 }

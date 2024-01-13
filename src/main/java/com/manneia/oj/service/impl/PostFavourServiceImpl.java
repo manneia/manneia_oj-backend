@@ -33,9 +33,10 @@ public class PostFavourServiceImpl extends ServiceImpl<PostFavourMapper, PostFav
     /**
      * 帖子收藏
      *
-     * @param postId
-     * @param loginUser
-     * @return
+     * @param postId 收藏帖子id
+     * @param loginUser 登录用户
+     * @return 返回收藏结果
+     * @throws BusinessException 业务异常
      */
     @Override
     public int doPostFavour(long postId, User loginUser) {
@@ -65,9 +66,10 @@ public class PostFavourServiceImpl extends ServiceImpl<PostFavourMapper, PostFav
     /**
      * 封装了事务的方法
      *
-     * @param userId
-     * @param postId
-     * @return
+     * @param userId the userid
+     * @param postId the postId
+     * @return 返回结果
+     * @throws BusinessException 业务异常
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
